@@ -1,0 +1,58 @@
+.light-theme {
+    --background:  rgb(227, 212, 240);
+    --shadow: #cab6ca;
+    --note-background: white;
+    --outline:  rgb(179 164 189);
+    --border-bottom: rgb(203, 185, 214);
+    --text-color: black;
+}
+
+.dark-theme {
+    --background:  rgb(69, 57, 78);
+    --shadow: rgb(43, 33, 50);
+    --note-background:  #7b6888;
+    --outline:  rgb(131, 113, 146);
+    --border-bottom:  rgb(150, 128, 168);
+    --text-color: white;
+}
+
+body {
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+}
+
+h1 {
+    font-weight: 100;
+    font-size: 4rem;
+}
+
+.input-text {
+    padding: 0;
+    background-color: var(--note-background) !important;
+    color: var(--text-color) !important;
+}
+
+.input-text::placeholder {
+    color: var(--text-color);
+}
+
+.bg {
+    background-color: var(--background);
+    height: 100vh;
+    color: var(--text-color);
+}
+
+.note {
+    background-color: var(--note-background);
+    box-shadow: 5px 5px 6px var(--shadow);
+}
+
+.outline {
+    outline: 1px solid var(--outline);
+}
+
+.border-at-bottom {
+    border-bottom: 1px solid var(--border-bottom);
+}
