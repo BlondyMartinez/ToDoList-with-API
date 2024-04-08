@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Task from "./task";
 
 const Note = () => {
@@ -12,7 +12,12 @@ const Note = () => {
                 id: new Date()
             }
 
+            const task = {
+                "label": inputValue.trim(),
+            }
+
             setTasks([newTask, ...tasks]);
+            fetchAPI("POST", task)
 
             setInputValue(""); 
         }
@@ -21,6 +26,22 @@ const Note = () => {
     const handleChange = (event) => {
         setInputValue(event.target.value);
     };
+
+    function fetchAPI(method, todos) {
+        fetch('https://playground.4geeks.com/todo/todos/blondy', {
+			method: method,
+			body: JSON.stringify(todos),
+			headers: { "Content-Type": "application/json" }
+		})
+		.then(resp => {
+			console.log(resp.ok); 
+			console.log(resp.status); 
+			console.log(resp.text()); 
+			return resp.json(); 
+		})
+		.then(data => { console.log(data); })
+		.catch(error => { console.log(error); });
+    }
 
 	return (
 		<div className="col-lg-4  col-sm-11 col-md-8 d-flex flex-column justify-content-center align-items-center">
@@ -39,7 +60,7 @@ const Note = () => {
 
                 {tasks.map((task) => (
                     <React.Fragment key={task.id}>
-                        <Task task={task.text} id={task.id} tasks={tasks} setTasks={setTasks} />
+                        <Task task={task.text} id={task.id} tasks={tasks} setTasks={setTasks} fetchAPI={fetchAPI} />
                     </React.Fragment>
                 ))}
 
