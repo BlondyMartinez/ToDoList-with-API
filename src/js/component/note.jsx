@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Task from "./task";
 
-const Note = () => {
-    const [inputValue, setInputValue] = useState('');
-    const [tasks, setTasks] = useState([]);
-
+const Note = (props) => {
     const ENDPOINTS = {
         POST: {
-            url: 'https://playground.4geeks.com/todo/todos/blondy',
+            url: 'https://playground.4geeks.com/todo/todos/',
             headers: { "Content-Type": "application/json" }
         },
         DELETE: {
@@ -15,18 +12,19 @@ const Note = () => {
             headers: { 'Accept': 'application/json' }
         },
         GET: {
-            url: "https://playground.4geeks.com/todo/users/blondy"
-        }
-            
+            url: "https://playground.4geeks.com/todo/users/"
+        }  
     }
 
-    useEffect(() => { fetchData() }, []);
+    const [inputValue, setInputValue] = useState('');
+    const [tasks, setTasks] = useState([]);
+
+    useEffect(() => { fetchData(); }, [props.user]);
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter" && inputValue.trim() !== "") {
             const task = { "label": inputValue.trim() }
-            fetchData
-            ("POST", task)
+            fetchData("POST", task);
             setInputValue(""); 
         }
     };
@@ -39,7 +37,7 @@ const Note = () => {
         const endpoint = ENDPOINTS[method];
         switch(method) {
             case "POST": 
-                fetch(endpoint.url, {
+                fetch(`${endpoint.url}${props.user}`, {
                     method: method,
                     body: JSON.stringify(todos),
                     headers: endpoint.headers
@@ -59,7 +57,7 @@ const Note = () => {
                 .catch(error => { console.error(error); });
                 break;
             default:
-                fetch(endpoint.url)
+                fetch(`${endpoint.url}${props.user}`)
                 .then(resp => { return resp.json(); })
                 .then(data => { if (data && data.todos) setTasks(data.todos); })
                 .catch(error => { console.log(error); });
