@@ -70,3 +70,15 @@ h1 {
         background-color: var(--clear-btn-hover);
     }
 }
+
+.form-select {
+    background-color: var(--note-background);
+    color: var(--text-color);
+    border-color: var(--outline);
+}
+
+.user {
+    color: var(--text-color);
+    font-weight: bolder;
+    font-size: 1.25rem;
+}

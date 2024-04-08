@@ -14,21 +14,23 @@ const UserSelect = (props) => {
     useEffect(() => { fetchData(); }, []);
 
 	return (
-        <div className="d-flex justify-content-center align-items-center">
-            <label htmlFor="user-select" className="form-label user">User</label>
-            <select 
-                className="form-select" 
-                aria-label="User list" 
-                id="user-select"
-                value={user} 
-                onChange={(e) => setUser(e.target.value)}
-            >
-                {users.map((user) => (
-                    <React.Fragment key={user.id}>
-                        <option value={user.name}>{user.name}</option>
-                    </React.Fragment>
-                ))}
-            </select>
+        <div className="row">
+            <div className="col-auto"><label htmlFor="user-select" className="form-label user">User</label></div>
+            <div className="col-auto">
+                <select 
+                    className="form-select" 
+                    aria-label="User list" 
+                    id="user-select"
+                    value={user} 
+                    onChange={(e) => setUser(e.target.value)}
+                >
+                    {users.map((user) => (
+                        <React.Fragment key={user.id}>
+                            <option value={user.name}>{user.name}</option>
+                        </React.Fragment>
+                    ))}
+                </select>
+            </div>
         </div>
 	);
 };

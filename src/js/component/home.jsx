@@ -18,9 +18,11 @@ const Home = () => {
 
 	return (
 		<div className={`d-flex flex-column align-items-center bg ${theme}`}>
-			<UserSelect user={user} setUser={setUser} GUEST={GUEST} ></UserSelect>
-			<div onClick={handleClick} className="ms-auto m-2 fs-4" role="button"> 
-				{theme == 'light-theme' ? <i className="fa-solid fa-moon"></i> : <i className="fa-solid fa-sun"></i>} 
+			<div className="d-flex justify-content-between w-100 p-2">
+				<UserSelect user={user} setUser={setUser} GUEST={GUEST} ></UserSelect>
+				<div onClick={handleClick} className="fs-4" role="button"> 
+					{theme == 'light-theme' ? <i className="fa-solid fa-moon"></i> : <i className="fa-solid fa-sun"></i>} 
+				</div>
 			</div>
 			<h1 className="text-center mt-5">todos</h1>
 			<Note user={user} />
