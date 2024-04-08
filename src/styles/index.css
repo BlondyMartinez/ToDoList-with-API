@@ -5,6 +5,8 @@
     --outline:  rgb(179 164 189);
     --border-bottom: rgb(203, 185, 214);
     --text-color: black;
+    --clear-btn: #e9d8f4;
+    --clear-btn-hover: #d3b4e8;
 }
 
 .dark-theme {
@@ -14,6 +16,8 @@
     --outline:  rgb(131, 113, 146);
     --border-bottom:  rgb(150, 128, 168);
     --text-color: white;
+    --clear-btn: #675075;
+    --clear-btn-hover: #473652;
 }
 
 body {
@@ -55,4 +59,14 @@ h1 {
 
 .border-at-bottom {
     border-bottom: 1px solid var(--border-bottom);
+}
+
+.clear-tasks {
+    background-color: var(--clear-btn);
+    font-size: 0.8rem;
+    color: var(--text-color);
+
+    &:hover {
+        background-color: var(--clear-btn-hover);
+    }
 }

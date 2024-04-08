@@ -20,8 +20,7 @@ const Note = () => {
             
     }
 
-    useEffect(() => { fetchData
-        () }, []);
+    useEffect(() => { fetchData() }, []);
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter" && inputValue.trim() !== "") {
@@ -36,8 +35,7 @@ const Note = () => {
         setInputValue(event.target.value);
     };
 
-    function fetchData
-    (method = 'GET', todos = null) {
+    function fetchData(method = 'GET', todos = null) {
         const endpoint = ENDPOINTS[method];
         switch(method) {
             case "POST": 
@@ -69,6 +67,10 @@ const Note = () => {
         }
     }
 
+    function clearAll(){
+        tasks.map((task) => fetchData('DELETE', task.id))
+    }
+
 	return (
 		<div className="col-lg-4  col-sm-11 col-md-8 d-flex flex-column justify-content-center align-items-center">
 			<div className="note align-middle w-100 outline" style={{ zIndex: '2' }}>
@@ -90,10 +92,11 @@ const Note = () => {
                     </React.Fragment>
                 ))}
 
-				<div className="p-2" style={{ fontSize: '0.8rem' }}>
+				<div className="p-2 d-flex justify-content-between" style={{ fontSize: '0.8rem' }}>
                     {tasks.length == 0 
                         ? 'No tasks. Add a task.' 
                         : `${tasks.length} ${tasks.length != 1 ? 'items' : 'item'} left.`}
+                    <button className="btn clear-tasks" onClick={clearAll} disabled={tasks.length != 0 ? false : true} >Clear All Tasks</button>
                 </div>
 			</div>
 			<div className="note outline" style={{ width: `95%`, height: '5px', zIndex: '1' }}></div>
