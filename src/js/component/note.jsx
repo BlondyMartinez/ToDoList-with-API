@@ -5,20 +5,29 @@ const Note = () => {
     const [inputValue, setInputValue] = useState('');
     const [tasks, setTasks] = useState([]);
 
+    const ENDPOINTS = {
+        POST: {
+            url: 'https://playground.4geeks.com/todo/todos/blondy',
+            headers: { "Content-Type": "application/json" }
+        },
+        DELETE: {
+            url: "https://playground.4geeks.com/todo/todos/",
+            headers: { 'Accept': 'application/json' }
+        },
+        GET: {
+            url: "https://playground.4geeks.com/todo/users/blondy"
+        }
+            
+    }
+
+    useEffect(() => { fetchData
+        () }, []);
+
     const handleKeyDown = (event) => {
         if (event.key === "Enter" && inputValue.trim() !== "") {
-            const newTask = {
-                text: inputValue.trim(),
-                id: new Date()
-            }
-
-            const task = {
-                "label": inputValue.trim(),
-            }
-
-            setTasks([newTask, ...tasks]);
-            fetchAPI("POST", task)
-
+            const task = { "label": inputValue.trim() }
+            fetchData
+            ("POST", task)
             setInputValue(""); 
         }
     };
@@ -27,20 +36,37 @@ const Note = () => {
         setInputValue(event.target.value);
     };
 
-    function fetchAPI(method, todos) {
-        fetch('https://playground.4geeks.com/todo/todos/blondy', {
-			method: method,
-			body: JSON.stringify(todos),
-			headers: { "Content-Type": "application/json" }
-		})
-		.then(resp => {
-			console.log(resp.ok); 
-			console.log(resp.status); 
-			console.log(resp.text()); 
-			return resp.json(); 
-		})
-		.then(data => { console.log(data); })
-		.catch(error => { console.log(error); });
+    function fetchData
+    (method = 'GET', todos = null) {
+        const endpoint = ENDPOINTS[method];
+        switch(method) {
+            case "POST": 
+                fetch(endpoint.url, {
+                    method: method,
+                    body: JSON.stringify(todos),
+                    headers: endpoint.headers
+                })
+                .then(resp => { return resp.json(); })
+                .then(() => { fetchData
+                    () })
+                .catch(error => { console.log(error); });
+                break;
+            case "DELETE":
+                fetch(`${endpoint.url}${todos}`, {
+                    method: method,
+                    headers: endpoint.headers
+                })
+                .then(() => { fetchData
+                    () })
+                .catch(error => { console.error(error); });
+                break;
+            default:
+                fetch(endpoint.url)
+                .then(resp => { return resp.json(); })
+                .then(data => { if (data && data.todos) setTasks(data.todos); })
+                .catch(error => { console.log(error); });
+                break;
+        }
     }
 
 	return (
@@ -60,7 +86,7 @@ const Note = () => {
 
                 {tasks.map((task) => (
                     <React.Fragment key={task.id}>
-                        <Task task={task.text} id={task.id} tasks={tasks} setTasks={setTasks} fetchAPI={fetchAPI} />
+                        <Task task={task.label} id={task.id} tasks={tasks} setTasks={setTasks} fetchData={fetchData} />
                     </React.Fragment>
                 ))}
 
