@@ -19,12 +19,18 @@ const Note = (props) => {
     const [inputValue, setInputValue] = useState('');
     const [tasks, setTasks] = useState([]);
 
-    useEffect(() => { fetchData(); }, [props.user]);
+    useEffect(() => { props.user.id !== "guest" ? fetchData() : setTasks([]) }, [props.user]);
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter" && inputValue.trim() !== "") {
-            const task = { "label": inputValue.trim() }
-            fetchData("POST", task);
+            if (props.user.id !== "guest") {
+                const task = { "label": inputValue.trim() }
+                fetchData("POST", task);
+            } else {
+                const task = { "label": inputValue.trim(), id: new Date() }
+                setTasks([...tasks, task]);
+            }
+            
             setInputValue(""); 
         }
     };
@@ -34,34 +40,36 @@ const Note = (props) => {
     };
 
     function fetchData(method = 'GET', todos = null) {
-        const endpoint = ENDPOINTS[method];
-        switch(method) {
-            case "POST": 
-                fetch(`${endpoint.url}${props.user}`, {
-                    method: method,
-                    body: JSON.stringify(todos),
-                    headers: endpoint.headers
-                })
-                .then(resp => { return resp.json(); })
-                .then(() => { fetchData
-                    () })
-                .catch(error => { console.log(error); });
-                break;
-            case "DELETE":
-                fetch(`${endpoint.url}${todos}`, {
-                    method: method,
-                    headers: endpoint.headers
-                })
-                .then(() => { fetchData
-                    () })
-                .catch(error => { console.error(error); });
-                break;
-            default:
-                fetch(`${endpoint.url}${props.user}`)
-                .then(resp => { return resp.json(); })
-                .then(data => { if (data && data.todos) setTasks(data.todos); })
-                .catch(error => { console.log(error); });
-                break;
+        if (props.user && props.user.id !== "guest") {
+            const endpoint = ENDPOINTS[method];
+            switch(method) {
+                case "POST": 
+                    fetch(`${endpoint.url}${props.user.name}`, {
+                        method: method,
+                        body: JSON.stringify(todos),
+                        headers: endpoint.headers
+                    })
+                    .then(resp => { return resp.json(); })
+                    .then(() => { fetchData
+                        () })
+                    .catch(error => { console.log(error); });
+                    break;
+                case "DELETE":
+                    fetch(`${endpoint.url}${todos}`, {
+                        method: method,
+                        headers: endpoint.headers
+                    })
+                    .then(() => { fetchData
+                        () })
+                    .catch(error => { console.error(error); });
+                    break;
+                default:
+                    fetch(`${endpoint.url}${props.user.name}`)
+                    .then(resp => { return resp.json(); })
+                    .then(data => { if (data && data.todos) setTasks(data.todos); })
+                    .catch(error => { console.log(error); });
+                    break;
+            }
         }
     }
 
@@ -86,14 +94,19 @@ const Note = (props) => {
 
                 {tasks.map((task) => (
                     <React.Fragment key={task.id}>
-                        <Task task={task.label} id={task.id} tasks={tasks} setTasks={setTasks} fetchData={fetchData} />
+                        <Task task={task.label} id={task.id} tasks={tasks} setTasks={setTasks} fetchData={fetchData} user={props.user} />
                     </React.Fragment>
                 ))}
 
-				<div className="p-2 d-flex justify-content-between" style={{ fontSize: '0.8rem' }}>
-                    {tasks.length == 0 
-                        ? 'No tasks. Add a task.' 
-                        : `${tasks.length} ${tasks.length != 1 ? 'items' : 'item'} left.`}
+				<div className="p-2 d-flex justify-content-between">
+                    <div className="d-flex flex-column justify-content-between" style={{ fontSize: '0.8rem' }}>
+                        <span>
+                            {tasks.length == 0 
+                                ? 'No tasks. Add a task.' 
+                                : `${tasks.length} ${tasks.length != 1 ? 'items' : 'item'} left.`}
+                        </span>
+                        {props.user.id === "guest" && <span className="text-danger">Nothing will be saved as a guest.</span>}
+                    </div>
                     <button className="btn clear-tasks" onClick={clearAll} disabled={tasks.length != 0 ? false : true} >Clear All Tasks</button>
                 </div>
 			</div>

@@ -4,7 +4,11 @@ const Task = (props) => {
     const [onHover, setOnHover] = useState(false);
 
     const removeThis = () => {
-        props.fetchData("DELETE", props.id);
+        if(props.user.id !== "guest") props.fetchData("DELETE", props.id);
+        else {
+            const updatedTasks = props.tasks.filter(task => task.id !== props.id);
+            props.setTasks(updatedTasks);
+        }
     };
 
 	return (
