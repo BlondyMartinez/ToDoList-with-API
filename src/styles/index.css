@@ -7,6 +7,9 @@
     --text-color: black;
     --clear-btn: #e9d8f4;
     --clear-btn-hover: #d3b4e8;
+    --new-user-btn:#c1aad8;
+    --new-user-btn-hover: #a895bb;
+    --header: rgba(255, 255, 255, 0.5);
 }
 
 .dark-theme {
@@ -18,6 +21,9 @@
     --text-color: white;
     --clear-btn: #675075;
     --clear-btn-hover: #473652;
+    --new-user-btn: #7b6888;
+    --new-user-btn-hover:  #6f5580;
+    --header: rgba(0, 0, 0, 0.5);
 }
 
 body {
@@ -30,6 +36,10 @@ body {
 h1 {
     font-weight: 100;
     font-size: 4rem;
+}
+
+.header {
+    background: linear-gradient(to bottom, var(--header),  rgba(255, 255, 255, 0));
 }
 
 .input-text {
@@ -61,6 +71,7 @@ h1 {
     border-bottom: 1px solid var(--border-bottom);
 }
 
+.create-btn,
 .clear-tasks {
     background-color: var(--clear-btn);
     font-size: 0.8rem;
@@ -77,8 +88,15 @@ h1 {
     border-color: var(--outline);
 }
 
-.user {
+.new-user {
+    background-color: var(--new-user-btn);
     color: var(--text-color);
-    font-weight: bolder;
-    font-size: 1.25rem;
+
+    &:hover {
+        background-color: var(--new-user-btn-hover);
+    }
+}
+
+.modal-bg {
+    background-color: var(--note-background);
 }
