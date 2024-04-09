@@ -105,7 +105,7 @@ const Note = (props) => {
                                 ? 'No tasks. Add a task.' 
                                 : `${tasks.length} ${tasks.length != 1 ? 'items' : 'item'} left.`}
                         </span>
-                        {props.user.id === "guest" && <span className="text-danger">Nothing will be saved as a guest.</span>}
+                        {props.user.id === "guest" && <span className={`${props.theme === "light-theme" ? "text-danger" : "text-warning"}`}>Nothing will be saved as a guest.</span>}
                     </div>
                     <button className="btn clear-tasks" onClick={clearAll} disabled={tasks.length != 0 ? false : true} >Clear All Tasks</button>
                 </div>

@@ -2,7 +2,6 @@ import React, { useState }  from "react";
 import Note from "./note"
 import UserSelect from "./user_list";
 
-//create your first component
 const Home = () => {
     const GUEST = {
         name: "Guest",
@@ -25,7 +24,7 @@ const Home = () => {
 				</div>
 			</div>
 			<h1 className="text-center mt-5">todos</h1>
-			<Note user={user} />
+			<Note user={user} theme={theme} />
 		</div>
 	);
 };
