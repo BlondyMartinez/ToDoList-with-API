@@ -74,11 +74,12 @@ const Note = (props) => {
     }
 
     function clearAll(){
-        tasks.map((task) => fetchData('DELETE', task.id))
+        if (props.user.id !== "guest") tasks.map((task) => fetchData('DELETE', task.id))
+        else setTasks([]);
     }
 
 	return (
-		<div className="col-lg-4  col-sm-11 col-md-8 d-flex flex-column justify-content-center align-items-center">
+		<div className="col-lg-4 col-sm-11 col-md-8 d-flex flex-column justify-content-center align-items-center">
 			<div className="note align-middle w-100 outline" style={{ zIndex: '2' }}>
 				<div className="py-2 px-5 border-at-bottom">
                     <input 
@@ -105,7 +106,7 @@ const Note = (props) => {
                                 ? 'No tasks. Add a task.' 
                                 : `${tasks.length} ${tasks.length != 1 ? 'items' : 'item'} left.`}
                         </span>
-                        {props.user.id === "guest" && <span className={`${props.theme === "light-theme" ? "text-danger" : "text-warning"}`}>Nothing will be saved as a guest.</span>}
+                        {props.user.id === "guest" && <span className={`${props.theme === "light-theme" ? "text-danger" : "text-warning"}`}>Guest mode.</span>}
                     </div>
                     <button className="btn clear-tasks" onClick={clearAll} disabled={tasks.length != 0 ? false : true} >Clear All Tasks</button>
                 </div>
