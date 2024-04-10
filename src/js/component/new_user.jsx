@@ -14,7 +14,7 @@ const NewUser = (props) => {
 
     function validateUsername(username) {
         const isUsernameTaken = users.some(user => user.name === username);
-        setValidUsername(!isUsernameTaken);
+        setValidUsername(!isUsernameTaken && username.length > 0);
     }
 
     async function createUser() {
