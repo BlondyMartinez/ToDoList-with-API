@@ -20,12 +20,12 @@ This is a simple todo list application built with React, featuring REST API inte
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/todo-list-app.git
+git clone https://github.com/BlondyMartinez/ToDoList-with-API.git
 ```
 2. Install dependencies:
 
 ```bash
-cd todo-list-app
+cd ToDoList-with-API
 npm install
 ```
 3. Start the development server:
